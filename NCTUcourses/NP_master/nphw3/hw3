@@ -1,0 +1,124 @@
+Project III: Remote Batch System (rbs) in HTTP.
+
+In this homework, you are asked to write a remote batch 
+system in HTTP.  
+
+(1) Write a CGI program to receive an HTTP request described as follows.
+The parameters of the HTTP request are:
+
+    h1=140.113.210.101      # the first server's IP.
+    p1=7000                 # the first server's port.
+    f1=batch_file1          # the batch file name redirected to the first ras server.
+    h2=140.113.210.103      # the second server's IP.
+    p2=7000                 # the second server's port.
+    f2=batch_file2          # the batch file name redirected to the second ras server.
+    h3=140.113.210.103      # the third server's IP.
+    p3=7001                 # the third server's port.
+    f3=batch_file3          # the batch file name redirected to the third rwg server.
+    h4=                     # no more server. 
+    h5=                     # no more server. 
+
+Then, the CGI program connects to the three ras or rwg servers and then
+redirects the batch file (stored in the HTTP server) as input to these servers.  
+When receiving messages, send these messages back to the browser as 
+the returning web page.  Note that the returning web page include three columns, 
+one for displaying the returning messages from each server.  
+A sample of the web page is given on the board. 
+
+        <html>
+        <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=big5" />
+        <title>Network Programming Homework 3</title>
+        </head>
+        <body bgcolor=#336699>
+        <font face="Courier New" size=2 color=#FFFF99>
+        <table width="800" border="1">
+        <tr>
+        <td>140.113.210.145</td><td>140.113.210.145</td><td>140.113.210.145</td></tr>
+        <tr>
+        <td valign="top" id="m0"></td><td valign="top" id="m1"></td><td valign="top" id="m2"></td></tr>
+        </table>
+        <script>document.all['m0'].innerHTML += "****************************************************************<br>";</script>
+        <script>document.all['m1'].innerHTML += "****************************************************************<br>";</script>
+        <script>document.all['m0'].innerHTML += "** Welcome to the information server, dist5.csie.nctu.edu.tw. **<br>";</script>
+        <script>document.all['m0'].innerHTML += "** You are in the directory, /.<br>";</script>
+        <script>document.all['m1'].innerHTML += "** You are in the directory, /.<br>";</script>
+        <script>document.all['m2'].innerHTML += "****************************************************************<br>";</script>
+        <script>document.all['m1'].innerHTML += "% <b>removetag test.html</b><br>";</script>
+        <script>document.all['m1'].innerHTML += "<br>";</script>
+        <script>document.all['m1'].innerHTML += "Test<br>";</script>
+        <script>document.all['m1'].innerHTML += "This is a test program<br>";</script>
+        <script>document.all['m1'].innerHTML += "for ras.<br>";</script>
+        <script>document.all['m1'].innerHTML += "<br>";</script>
+        <script>document.all['m1'].innerHTML += "<br>";</script>
+        <script>document.all['m1'].innerHTML += "% <b></b><br>";</script>
+        ....
+        </font>
+        </body>
+        </html>
+
+Requirements: 
+
+* In your web page, you must be able to accept at least 5 batches. 
+
+* When demo, you must have your own ras and rwg servers (in Projects I and II) 
+  work for testing on some servers.  
+
+* For all commands (sent from client to server), use <b> ... </b> to encapsulate commands. 
+  After receiving "\n% ", you can make another command. 
+
+* You must use nonblocking I/O (including connect()) for connections to servers.  
+  * It is suggested that in your server you call "sleep(10)" 
+    before accept(), when you test non-blocking.  
+  * It is suggested that you use a large batch file to test output blocking.
+    In order to test large batch file. Your ras & rwg servers must be modified to accept:
+    % cat <<EOF
+    LINE1 DATA
+    LINE2 DATA
+    LINE3 DATA
+    LINE4 DATA
+    EOF
+    % 
+
+* For simplicity, you do not need to consider nonblocking when sending messages back to clients. 
+
+* The CGI program must be working with Apache server in Linux or BSD.
+
+
+(2) Write a simple http server in Unix to support CGI.  
+
+Requirements:
+
+* This must work with TA's CGI programs (samples will be posted) and the previous 
+  CGI you wrote.  
+
+* For simplicity, in (2), your server only need to process "GET" commands and CGI 
+  (no need for HTML file access).  
+  But, your server still needs to take care of environment variables, which will given by TAs. 
+
+
+
+(3) In Windows SDK, write an asynchronous version of (1).
+But, the program, in the iterative server paradigam, includes HTTP server and 
+CGI together. (No need to separate HTTP server and CGI, but you can if you want.)
+
+
+
+Requirements:
+
+* This program directly processes the HTTP request, e.g., directly parse the input 
+  request such as "GET .... HTTP/1.1".  
+
+* For batch processing, you must use WSAAsyncSelect to do 
+  nonblocking operations as in (1).  
+
+* Again, you do not need to consider nonblocking when sending messages back to clients. 
+
+* You are required to work on subproblems (1) and (2). Subprogram (3) becomes one of subproblems in Project IV. 
+
+
+Due date: 12/16
+
+
+
+

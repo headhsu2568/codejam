@@ -1,0 +1,36 @@
+Detailed spec
+
+Part1 CGI
+  1. You must implement a CGI program to provide users to do batch process in your ras/rwg server.
+  2. It must work correctly with the http server used in your development environment(e.g. workstations of dept. CS).
+  3. The number of target servers is not greater than 5.
+  4. The information about batch is sent by users by GET method.
+  5. Those parameters must be in two form. One is that hostname, port, and file name are provided, and the other is that hostname is not specified.
+  6. Your CGI program should show one table which lists the results from your ras/rwg servers.
+  7. There are five cells in the table, and the results from your ras/rwg server must be listed in coresponding cell.
+     That is, the content from 1st ras/rwg server will not be displayed in 2nd cell to 5th cell.
+  8. You should not use fork() in CGI, instead, you should use non-blocking connect/select/read/write.
+  9. A large enough file will be tested, that is, you should not suppose that write will always success. You should handle write event properly.
+
+Part2 http server in UNIX
+  1. You must implement a http server which can invoke requested CGI program to execute.
+  2. Only parameters in GET method should be processed. 
+  3. All files name of which ends with ".cgi" should be interpreted as a executable file and should be invoked.
+  4. It is not cared if requested file does not exist.
+  5. You have to setup all the environmant variables (totally 9) in page 8 of http.pdf when you execute CGI program,
+     and the content of these environmant variables except "QUERY_STRING" can be everything you want.(Content of QUERY_STRING MUST be correct.)
+
+  Ex: REMOTE_ADDR="140.113.185.117" or "remote address" or "everything I want"
+  
+Part3 http server + CGI in Windows
+  1. You are asked to implement a simple http server which only provides the remote batch service, that is, it is the combination of 1st part and 2nd part.
+  2. This server must be implemented by winsock.
+  3. The client connections(i.e. the connections to your ras/rwg server) must be implemented in event driven model(WSAAsyncSelect).
+  4. The functionality of the CGI part must be same with 1.3 ~ 1.7 and 1.9.
+  5. There would also be a bonus if you split part 3 into 2 parts, CGI part and http server part.
+
+Common:
+  1. A html file used to fill the informaton of batch will be provided by TAs.
+  2. All testcases are stored in your directory of CGI.
+  3. We will not check your answer with [diff] command.
+  4. Please update [test.html] using the new published file.
