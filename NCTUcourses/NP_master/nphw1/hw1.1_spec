@@ -1,0 +1,66 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+Input spec:
+
+1.  There is no limitation of length of single-line input. 
+    There may be huge number of commands in a single-line input.
+
+2.  There must be one or more spaces between commands and symbols (or arguments.), 
+    but no spaces between pipe and numbers.
+
+    eg. cat hello.txt | number
+        cat hello.txt |4
+
+3.  There will not be any '/' character in demo input.
+
+4.  Pipe ("|") must not come with "printenv" and "setenv."
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+About server:
+
+1.  The welcome message MUST been shown as following 3 lines:
+****************************************
+** Welcome to the information server. **
+****************************************
+
+2.  Close the connection between the server and the client immediately when the server recieve "exit".
+
+3.  Note that the forked process of server MUST be handled when the connection to the client is closed.
+    Otherwise, there may be lots zombie processes.
+
+4.  When it is available to do command input, a prompt symbol '%' should be sent from server and a space should follow it to hint users.
+    e.g. after ls
+    bin/ test.html
+    % 
+    "% " should be printed in the following line after the output of "ls" command.
+    
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+About a numbered-pipe
+
+1.  |N means the stdout of last command should be piped to the first command of next Nth line, where 1 <= N <= 1000.
+
+2.  !N means both stdout and stderr of last command should be piped to the first command of next Nth line, where 1 <= N <= 1000.
+
+3.  The line number should  be counted, even when there is any error in a input line
+
+    eg. cat hello.txt |2
+        ctt                 <= unknown command, but the line number still counts
+        number
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+About parsing:
+
+
+1.  If there is command not found, print as follow:
+Unknown command: [command].
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+Other proposed:
+
+15. There must be "ls", "cat", "removetag", "removetag0", "number" in "bin/" in the root directory of your server.
+
+16. You have to execute the files in "bin/" with an "exec()"-based function.(eg. execvp() or execlp() ...)
+
+17. You should submit a simple single-page report when demo.
