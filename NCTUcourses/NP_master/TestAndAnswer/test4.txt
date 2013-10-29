@@ -1,0 +1,24 @@
+login0
+login1
+login2
+login3
+0:name user1
+1:name user2
+2:name user3
+3:name user4
+0:number test.html >|
+0:cat test.html >|
+1:number <1
+1:number <3
+1:number <4
+2:number <1
+1:number test.html >|
+2:removetag test.html >|
+3:removetag test.html >|
+3:number <2
+3:cat <2
+2:cat <2
+0:number <4
+0:number <3
+0:ls <2
+exit

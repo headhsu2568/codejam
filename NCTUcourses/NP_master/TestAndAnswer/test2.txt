@@ -1,0 +1,34 @@
+login0
+0:who
+login1
+1:name user1
+1:who
+0:name user0
+0:name user00
+0:name user000
+login2
+2:who
+2:name user2
+2:who
+2:name !@#$%
+2:who
+0:cat test.html
+0:cat test.html | removetag
+0:number test.html > test1.txt
+0:cat test1.txt | number > test2.txt
+0:cat test2.txt
+1:removetag test.html |5
+1:ls | number > ls.txt
+1:removetag0 test.html |1
+1:number | number |2
+1:cat ls.txt |1
+1:number
+logout0
+logout1
+2:removetag0 test.html !1
+2:number |1
+2:cccccccc | ls | cat |1
+2:number test.html > lala.txt
+2:cat lala.txt
+logout2
+exit

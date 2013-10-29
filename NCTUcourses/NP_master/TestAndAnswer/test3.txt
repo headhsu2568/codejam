@@ -1,0 +1,25 @@
+login0
+login1
+login2
+0:name mynameis-0 
+1:name mynameis-1
+1:who
+logout0
+2:name mynameis-2
+login3
+2:who
+3:name mynameis-3
+1:who
+1:yell yoooooooooooooooooooooooo!
+2:yell hiiiiiiiiiiiiiiiiiiiiiiii!
+1:tell 2 11111111111111
+1:tell 4 33333333333333
+1:tell 2 22222222222222
+2:tell 1 np demo failed!
+3:tell 1 hi!
+3:yell ls > test1.html
+3:tell 5 ls > test1.html
+logout1
+logout2
+logout3
+exit

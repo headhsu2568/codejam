@@ -1,0 +1,134 @@
+
+login0
+0| ****************************************
+0| ** Welcome to the information server. **
+0| ****************************************
+0| *** User '(no name)' entered from 127.0.0.1/55753. ***
+0| % 
+
+login1
+0| *** User '(no name)' entered from 127.0.0.1/55754. ***
+1| ****************************************
+1| ** Welcome to the information server. **
+1| ****************************************
+1| *** User '(no name)' entered from 127.0.0.1/55754. ***
+1| % 
+
+login2
+0| *** User '(no name)' entered from 127.0.0.1/55755. ***
+1| *** User '(no name)' entered from 127.0.0.1/55755. ***
+2| ****************************************
+2| ** Welcome to the information server. **
+2| ****************************************
+2| *** User '(no name)' entered from 127.0.0.1/55755. ***
+2| % 
+
+0 % name mynameis-0 
+0| *** User from 127.0.0.1/55753 is named 'mynameis-0'. ***
+0| % 
+1| *** User from 127.0.0.1/55753 is named 'mynameis-0'. ***
+2| *** User from 127.0.0.1/55753 is named 'mynameis-0'. ***
+
+1 % name mynameis-1
+0| *** User from 127.0.0.1/55754 is named 'mynameis-1'. ***
+1| *** User from 127.0.0.1/55754 is named 'mynameis-1'. ***
+1| % 
+2| *** User from 127.0.0.1/55754 is named 'mynameis-1'. ***
+
+1 % who
+1| <ID>	<nickname>	<IP/port>	<indicate me>
+1| 1	mynameis-0	127.0.0.1/55753	
+1| 2	mynameis-1	127.0.0.1/55754	<-me
+1| 3	(no name)	127.0.0.1/55755	
+1| % 
+
+logout0
+1| *** User 'mynameis-0' left. ***
+2| *** User 'mynameis-0' left. ***
+
+2 % name mynameis-2
+1| *** User from 127.0.0.1/55755 is named 'mynameis-2'. ***
+2| *** User from 127.0.0.1/55755 is named 'mynameis-2'. ***
+2| % 
+
+login3
+1| *** User '(no name)' entered from 127.0.0.1/55756. ***
+2| *** User '(no name)' entered from 127.0.0.1/55756. ***
+3| ****************************************
+3| ** Welcome to the information server. **
+3| ****************************************
+3| *** User '(no name)' entered from 127.0.0.1/55756. ***
+3| % 
+
+2 % who
+2| <ID>	<nickname>	<IP/port>	<indicate me>
+2| 1	(no name)	127.0.0.1/55756	
+2| 2	mynameis-1	127.0.0.1/55754	
+2| 3	mynameis-2	127.0.0.1/55755	<-me
+2| % 
+
+3 % name mynameis-3
+1| *** User from 127.0.0.1/55756 is named 'mynameis-3'. ***
+2| *** User from 127.0.0.1/55756 is named 'mynameis-3'. ***
+3| *** User from 127.0.0.1/55756 is named 'mynameis-3'. ***
+3| % 
+
+1 % who
+1| <ID>	<nickname>	<IP/port>	<indicate me>
+1| 1	mynameis-3	127.0.0.1/55756	
+1| 2	mynameis-1	127.0.0.1/55754	<-me
+1| 3	mynameis-2	127.0.0.1/55755	
+1| % 
+
+1 % yell yoooooooooooooooooooooooo!
+1| *** mynameis-1 yelled ***: yoooooooooooooooooooooooo!
+1| % 
+2| *** mynameis-1 yelled ***: yoooooooooooooooooooooooo!
+3| *** mynameis-1 yelled ***: yoooooooooooooooooooooooo!
+
+2 % yell hiiiiiiiiiiiiiiiiiiiiiiii!
+1| *** mynameis-2 yelled ***: hiiiiiiiiiiiiiiiiiiiiiiii!
+2| *** mynameis-2 yelled ***: hiiiiiiiiiiiiiiiiiiiiiiii!
+2| % 
+3| *** mynameis-2 yelled ***: hiiiiiiiiiiiiiiiiiiiiiiii!
+
+1 % tell 2 11111111111111
+1| *** mynameis-1 told you ***: 11111111111111
+1| % 
+
+1 % tell 4 33333333333333
+1| *** Error: user #4 does not exist yet. ***
+1| % 
+
+1 % tell 2 22222222222222
+1| *** mynameis-1 told you ***: 22222222222222
+1| % 
+
+2 % tell 1 np demo failed!
+2| % 
+3| *** mynameis-2 told you ***: np demo failed!
+
+3 % tell 1 hi!
+3| *** mynameis-3 told you ***: hi!
+3| % 
+
+3 % yell ls > test1.html
+1| *** mynameis-3 yelled ***: ls > test1.html
+2| *** mynameis-3 yelled ***: ls > test1.html
+3| *** mynameis-3 yelled ***: ls > test1.html
+3| % 
+
+3 % tell 5 ls > test1.html
+3| *** Error: user #5 does not exist yet. ***
+3| % 
+
+logout1
+2| *** User 'mynameis-1' left. ***
+3| *** User 'mynameis-1' left. ***
+
+logout2
+3| *** User 'mynameis-2' left. ***
+
+logout3
+
+exit
