@@ -1,0 +1,164 @@
+[Detailed Spec]
+----------------------------------------------------------------------------------------------------
+1. Same as all detailed spec in hw1.
+----------------------------------------------------------------------------------------------------
+2. Commands [who], [tell], [yell], [name] are single line commands, which means there will be no
+   pipe connected to these commands, just like [printenv] or [setenv].
+   
+   eg.
+   % ls |1		
+   % yell		//It is illegal. This will not appear in testcases.
+   % who |2		//It is illegal. This will not appear in testcases.
+----------------------------------------------------------------------------------------------------
+3. Format of command [tell]: 
+   % tell <client id> <message>
+   And the client will get the message with following format:
+   % *** <sender's name> told you ***: <message>
+   
+   eg. Assume my name is 'IamUser'.
+   [terminal of mine]
+   % tell 3 Hello.
+   
+   [terminal of client id 3]
+   % *** IamUser told you ***:  Hello.
+
+   If the client you want to send message to is not exist, print the following message:
+   % *** Error: user #<client id> does not exist yet. *** 
+----------------------------------------------------------------------------------------------------
+4. Format of command [yell]: 
+   % yell <message>
+   And all the clients will get the message with following format:
+   % *** <sender's name> yelled ***: <message>
+   
+   eg. Assume my name is 'IamUser'.
+   [terminal of mine]
+   % yell Hi...
+   
+   [terminal of all clients]
+   % *** IamUser yelled ***:  Hi...
+----------------------------------------------------------------------------------------------------
+5. Format of command [name]: 
+   % name <name>
+   And all the clients will get the message with following format:
+   % *** User from <IP/port> is named '<name>'. ***
+   
+   eg.
+   [terminal of mine]
+   % name IamUser
+   
+   [terminal of all clients]
+   % *** User from 140.113.215.62/1201 is named 'IamUser'. ***
+----------------------------------------------------------------------------------------------------
+6. The output format of [who]:
+   You have to print a tab between each of tags. Notice that the first column do not print socket fd but client id.
+   
+   <ID>[Tab]<nickname>[Tab]<IP/port>[Tab]<indicate me>
+   <1st id>[Tab]<1st name>[Tab]<1st IP/port>([Tab]<is me?>)
+   <2nd id>[Tab]<2nd name>[Tab]<2nd IP/port>([Tab]<is me?>)
+   <3rd id>[Tab]<3rd name>[Tab]<3rd IP/port>([Tab]<is me?>)
+   ...   
+
+   For example:
+   % who 
+   <ID>	<nickname>	<IP/port>	<indicate me>
+   1	IamStudent	140.113.215.62/1201	<-me
+   2	(No Name)	140.113.215.63/1013
+   3	student3	140.113.215.64/1302
+----------------------------------------------------------------------------------------------------
+7. When a new client connect to the server, broadcast as follows. 
+   % *** User '(no name)' entered from <IP/port>. ***
+   
+   eg.
+   [terminal of all clients]
+   % *** User '(no name)' entered from 140.113.215.63/1013. ***
+----------------------------------------------------------------------------------------------------
+8. When a client disconnect from the server, broadcast as follows. 
+   % *** User '<name>' left. ***
+   
+   eg.
+   [terminal of all clients]
+   % *** User 'student5' left. ***
+----------------------------------------------------------------------------------------------------
+9. When a client pipe something into its own pipe, broadcast the following message:
+   % *** <name> (#<client id>) just piped '<command line>' into his/her pipe. ***
+   
+   eg. Assume my name is 'IamUser' and client id = 3.
+   [terminal of mine]
+   % cat test.html | cat >|
+   
+   [terminal of all clients]
+   % *** IamUser (#3) just piped 'cat test.html | cat >|' into his/her pipe. *** 
+----------------------------------------------------------------------------------------------------
+10.When a client receive pipe from other client, broadcast the following message:
+   % *** <my name> (#<my client id>) just received the pipe from <other client's name> (#<other client's id>) by '<command line>' *** 
+
+   eg. Assume my name is 'IamUser' and client id = 3.
+       Assume there is another client named 'student7' with client id = 7.
+   [terminal of mine]
+   % cat <7
+   
+   [terminal of all clients]
+   % *** IamUser (#3) just received the pipe from student7 (#7) by 'cat <7' ***
+----------------------------------------------------------------------------------------------------
+
+
+[Notice]
+----------------------------------------------------------------------------------------------------
+1. When doing broadcast, all clients should receive the message.
+
+   eg. Assume my name is 'IamUser'.
+   [terminal of mine]
+   % yell Hi...
+   % *** IamUser yelled ***:  Hi...
+---------------------------------------------------------------------------------------------------- 
+2. The length of client's name is not longer than 20 characters.
+----------------------------------------------------------------------------------------------------
+3. Only one user can take the pipe. So, the second one fails to take it and receive the 
+   following error message.
+   % *** Error: the pipe from #<client id> does not exist yet. *** 
+
+   eg. Assume there is only 3 clients connect to server with client id 1, 2 and 3.
+   
+   [terminal of client id = 1]
+   % cat <5
+   *** Error: the pipe from #5 does not exist yet. *** 
+   % ls >|
+   
+   [terminal of client id = 2]
+   % cat <1
+
+   [terminal of client id = 3]
+   % cat <1
+   *** Error: the pipe from #1 does not exist yet. *** 
+----------------------------------------------------------------------------------------------------
+4. Before the pipe is taken, client cannot send to its pipe again.
+   Otherwise, he/she will receive the following error message. 
+   *** Error: your pipe already exists. *** 
+   
+   eg.
+   % ls >|
+   % ls >|
+   % *** Error: your pipe already exists. *** 
+----------------------------------------------------------------------------------------------------
+5. Support stderr piping. '>!' is the same as '>|', except for that stderr is also piped. 
+----------------------------------------------------------------------------------------------------
+6. The client's id should be assigned in the range of number 1~30. The server should always assign a smallest unused id 
+   to new connected client.
+   
+   eg.
+   <new client login> // server assigns this client id = 1
+   <new client login> // server assigns this client id = 2
+   <client 1 logout>
+   <new client login> // server assigns this client id = 1, not 3
+----------------------------------------------------------------------------------------------------
+7. When a client receive message from other client's pipe and then redirect the stdout into its pipe using ">|",
+   both messages are to be boardcast to all clients. For example:
+   
+   eg. Assume my name is 'IamUser' and client id = 3.
+       Assume there is another client named 'student7' with client id = 7.
+   % cat <7 >|
+   % *** IamUser (#3) just received the pipe from student7 (#7) by 'cat <7 >|' ***
+   % *** IamUser (#3) just piped 'cat <7 >|' into his/her pipe. *** 
+----------------------------------------------------------------------------------------------------
+8. Do not worry about synchronize problem.
+----------------------------------------------------------------------------------------------------
