@@ -1,0 +1,108 @@
+[SOCKS Server : CONNECT]            (15 points)
+
+1.開 IE，可以連到google首頁 
+
+2.開 IE，設定
+　[工具]-[網際網路選項]-[連線]-[區域網路設定]-[Proxy設定]-[進階]-[Socks]，填入你的socks server
+　設好之後
+　(1).連google首頁隨便搜尋某個頁面（正常）                   (5 points)
+　(2).socks server斷線，再隨便點某個連結（失敗）                (5 points)
+　(3).socks server連線，再點同一個連結（正常）                  (5 points)
+
+[SOCKS Server : BIND]               (15 points)
+
+1.開FTP(使用FlashFXP)，設定
+- [Options]-[Preferences]-[Connection]-[Proxy]-[Add]-[Type:Socks 4]，填入你的socks server
+- 並且將下面的Use Passive Mode的勾關掉
+  連到一個ftp 之後
+1.  上傳up_file1，上傳成功後看size是否相同或改檔名為.pdf看能不能開              (5 points)
+2.  下載down_file1，下載成功後看size是否相同或改檔名為.pdf看能不能開            (5 points)
+3.  看SOCKS Server的 output 是否有用[BIND] protocol         (5 points)
+
+note:
+1.請不要用FileZilla(因為無法開啟BIND mode)
+2.請使用FlashFXP
+
+[SOCKS Server : Messages]           (5 points)
+Server需顯示相關資訊，例如以下：
+<S_IP>          : source ip
+<S_PORT>        : source port
+<D_IP>      : destination ip
+<D_PORT>    : destination port
+<Command>  : CONNECT or BIND
+<Reply>     : Accept or Reject
+<Content>   : Redirect socket data (show partial data ---> do not need show all)
+
+[CGI SOCKS Client]                  (25 points)
+1.連到自己的帳號下的 form.htm，可以輸入五欄的 IP , port , filename , SocksIP , SocksPort
+2.透過socks server連到五台機器看輸出是否正常
+
+Test Case (the same as Project III)
+(1). t1.txt (5 points)
+(2). t2.txt (5 points)
+(3). t3.txt (5 points)
+(4). t4.txt (5 points)
+(5). t5.txt(5 points)
+
+
+[firewall]                  (10 points)
+改變防火牆設定
+(1).只允許連到交大(140.113.*.*)，不能連到清大或其他     (5 points)
+(2).只允許連到清大(140.114.*.*)，不能連到交大或其他     (5 points)
+
+[code : SOCKSServer]
+流程：
+- master socket(listener)不斷地listen，有連線(SRC)來就fork一個process(SOCKS) 去處理，然後繼續listen
+- SOCKS 與SRC 連線溝通
+　1.收SOCKS4_REQUEST格式封包
+　2.check 是否可以過防火牆(socks.conf)，並回傳SRC SOCKS4_REPLY
+　3-1.如果是CONNECT 模式：
+　　a.從REQUEST裡取出dest的IP與PORT
+　　b.SOCKS連線到DEST
+　　c.SOCKS幫SRC與DEST做資料傳導的動作
+　　　－SRC傳來的資料－＞傳給DEST
+　　　－DEST傳來的資料－＞傳給SRC
+
+　3-2.如果是BIND模式：
+　　a.SOCKS 先去BIND一個port(BIND_PORT)
+　　b.SOCKS listen該port，DEST會自己連過來
+    c.SOCKS accept DEST之後，要再丟一個SOCKS4_REPLY給SRC    <-- 重要!!
+　　d.SOCKS幫SRC與DEST做資料傳導的動作
+　　　－SRC傳來的資料－＞傳給DEST
+　　　－DEST傳來的資料－＞傳給SRC
+
+
+寫程式的注意事項
+1.SOCKS_REQUEST , SOCKS_REPLY的protocol要注意
+  1 byte : unsigned char
+  2 byte : unsigned char[2]
+  4 byte : unsigned char[4] 
+  
+2.port格式
+　ex : port = 1234　
+
+　unsigned char port[2]
+　port[0] = 4
+  port[1] = 210
+  (hint : (int)port = port[0]*256 + port[1]  ==> 1234 = 4*256 + 210)
+　
+3.IP格式
+  ex : IP = 140.113.1.2
+  
+  unsigned char IP[4]
+  IP[0] = 140
+  IP[1] = 113
+  IP[2] = 1
+  IP[3] = 2
+
+4.BIND mode裡，要確定client與server的連線建好了再開始傳資料
+
+5.測試請不要用FileZilla(因為無法開啟BIND mode)
+　建議使用FlashFXP
+  (link : http://www.slime.com.tw/d-2.htm)
+
+
+[code : CGI Socks Client]
+原本連到rsh server，現在變成連到socks server，
+然後把要連到rsh server的IP , port放在SOCKS_REQUEST裡傳給socks server，讓他去重導。
+
