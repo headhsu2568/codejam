@@ -1,0 +1,32 @@
+NAS Parallel Benchmarks
+
+README.omc (inside NPB2.3-omp-C directory) - section "4. Installation"
+    File structure of NPB2.3-omp-C
+
+Installation
+    See README.install in NPB2.3-omp-C/Doc directory
+
+    In short, to build the benchmark sets, issue 'make suite'.
+    The suite has all benchmarks defined in 'config/suite.def' 
+    by format 'benchmark_name problem_size'.
+
+    problem_size are {S, W, A, B, C} in ascending order.
+    Output executable will sit in NPB2.3-omp-C/bin directory.
+
+Benchmarks without OpenMP directive
+    They lives in NPB2.3-omp-C-serial directory, with same
+    file structure as NPB2.3-omp-C. They are processed by
+        sed -e '/#pragma omp/d' ${BENCHMARK} > ${BENCHMARK}.tmp
+
+    where BENCHMARK is the name of source code.
+
+    The compile flages for makefile lies in config/make.def .
+    FFLAGS, FLINKFLAGS (for Fortran), CFLAGS and CLINKFLAGS (
+    for C) use directive -fopenmp for OpenMP support; while
+    -mcmodel=medium specifie the memory model (but yet I did
+    not see much document about it). To turnoff the  OpenMP 
+    support, simply issue the followings:
+        cd config
+        cp make.def make.def.old
+        sed -e 's:-fopenmp ::' make.def > make.def.new
+	mv make.def.new make.def
