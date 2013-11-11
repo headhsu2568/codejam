@@ -1,0 +1,70 @@
+<html>
+<body>
+<h2>Click the button to compute values of McCarthy's 91 function</h2>
+<br>
+<script language="JavaScript">
+function main(val){
+	n=+prompt("Enter an integer")
+	i=+n
+	count=0
+	if(val==1){
+		i=FSC(n)
+	}
+	else if(val==2){
+		i=ISC()
+	}
+	if(i!=0){
+		alert("Count="+count+"\nf("+n+")="+i)
+	}
+}
+function FSC(nn){
+	count=+count+1
+	if(nn>100){
+		nn=+nn-10
+		return nn
+	}
+	else if(nn<=100){
+		var k=+nn+11
+		i=+FSC(FSC(k))
+		return i
+	}
+	else{
+		alert("illegal input!!")
+		return 0
+	}
+}
+function ISC(){
+	var level=0
+	count=+count+1
+	if(i>100){
+		i=+i-10
+		return i
+	}
+	else if(i<=100){
+		for(;i<=100;){
+			for(;i<=100;){
+				level=+level+1
+				count=+count+1
+				i=+i+11
+			}
+			for(;i>100 && level!=0;){
+				level=+level-1
+				count=+count+1
+				i=+i-10
+			}
+		}
+		i=+i-10
+		return i
+	}
+	else{
+		alert("illegal input!!")
+		return 0
+	}
+}
+</script>
+<form>
+<input type="button" value="Functional style computation" onClick="main(1)">
+<input type="button" value="Imterative style computation" onClick="main(2)">
+</form>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<html>
+
+<body>
+
+<h3>Click the button to compute values of McCarthy's 91 function</h3><br>
+
+<script language="JavaScript">
+
+function f(n)
+{
+   c++
+   return n>100? n-10: f(f(n+11))
+}
+function g(n)
+{
+    var fs=1
+    loop=0
+    while (fs>0) {
+      loop++
+      if (n>100) {
+         n=n-10
+         fs=fs-1
+      } else {
+         n=n+11
+         fs=fs+1
+      }
+    }
+    return n
+}
+function functional()
+{
+   var m=prompt("Enter an integer >=0: ")
+   var n=Number(m)
+   if (n==n) { c=0; alert("f("+n+")="+f(n)+"\nFunction f is called "+c+" times.") }
+   else alert(m+" - Illegal input")
+}
+function imperative()
+{
+   var m=prompt("Enter an integer >=0: ")
+   var n=Number(m)
+   if (n==n) alert("f("+n+")="+g(n)+"\nThe loop is executed "+loop+" times.") 
+   else alert(m+" - Illegal input")
+}
+</script>
+
+<form>
+<input type=button value="Functional style computation" onClick=functional()>
+<input type=button value="Imperative style computation" onClick=imperative()>
+</form>
+</body>
+</html>
